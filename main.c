@@ -1,3 +1,7 @@
+// Lumeus - adjust backlight brightness
+// Copyright (c) 2015 Tuomas Siipola
+// See LICENSE file for license details.
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -34,15 +38,23 @@ void write_integer_to_file(const char *filename, int value)
     fclose(fp);
 }
 
+// Keep the value between min and max.
 int clamp(int value, int min, int max) {
     return (value < min) ? min : (value > max) ? max : value;
 }
 
+// This function returns new brightness based on user input string. The input
+// can either be absolute or relative to current brightness indicated by a plus
+// or minus sign or the lack of it. It can also be a raw brightness value or
+// percentage of maximum brightness.
 int parse_input(const char *input, int current_brightness, int max_brightness)
 {
+    // Try to parse input string as an integer.
     char *end;
     long value = strtol(input, &end, 10);
 
+    // Check are there any extra characters after the integer.
+    // If so, the input can only valid if it's a percentage.
     if (*end != '\0') {
         if (*end == '%' && *(end + 1) == '\0') {
             value = max_brightness * value / 100;
@@ -52,6 +64,7 @@ int parse_input(const char *input, int current_brightness, int max_brightness)
         }
     }
 
+    // Determine if the value is relative or absolute.
     if (input[0] == '+' || input[0] == '-') {
         return clamp(current_brightness + value, 0, max_brightness);
     } else {
