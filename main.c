@@ -19,6 +19,21 @@ int read_integer_from_file(const char *filename)
     return value;
 }
 
+void write_integer_to_file(const char *filename, int value)
+{
+    FILE *fp = fopen(filename, "w");
+    if (!fp) {
+        fprintf(stderr, "Failed to open file '%s'", filename);
+        exit(EXIT_FAILURE);
+    }
+    int ret = fprintf(fp, "%d\n", value);
+    if (ret <= 0) {
+        fprintf(stderr, "Failed to write to file '%s'\n", filename);
+        exit(EXIT_FAILURE);
+    }
+    fclose(fp);
+}
+
 int clamp(int value, int min, int max) {
     return (value < min) ? min : (value > max) ? max : value;
 }
@@ -52,7 +67,7 @@ int main(int argc, char *argv[])
     if (argc == 1) {
         printf("%d%\n", brightness * 100 / max_brightness);
     } else if (argc == 2) {
-        printf("%d/%d -> %s -> %d/%d\n", brightness, max_brightness, argv[1], parse_input(argv[1], brightness, max_brightness), max_brightness);
+        write_integer_to_file("/sys/class/backlight/intel_backlight/brightness", parse_input(argv[1], brightness, max_brightness));
     } else {
         return EXIT_FAILURE;
     }
