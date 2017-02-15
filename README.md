@@ -5,6 +5,22 @@ brightness. It's useful for binding to a hotkey but it can also be used
 manually. It doesn't rely on X11 so it can be used in Wayland and system
 console.
 
+## Installation
+
+### Arch Linux
+
+Package [lumeus-git](https://aur.archlinux.org/packages/lumeus-git/) is
+available in AUR.
+
+### Source
+
+```shell
+$ git clone https://github.com/siiptuo/lumeus.git
+$ cd lumeus
+$ make
+$ sudo make install
+```
+
 ## Usage
 
 Running the command `lumeus` outputs the current brightness as percentage.
