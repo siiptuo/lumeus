@@ -109,6 +109,20 @@ int main(int argc, char *argv[])
     snprintf(max_brightness_path, PATH_MAX, "/sys/class/backlight/%s/max_brightness", controller);
     int max_brightness = read_integer_from_file(max_brightness_path);
 
+    for (int i = 1; i < argc; i++) {
+        if (strcmp(argv[i], "--help") == 0 || strcmp(argv[i], "-h") == 0) {
+            printf("USAGE: lumeus [<brightness>]\n"
+                    "\n"
+                    "Without any arguments the current brightness is printed as percentage.\n"
+                    "\n"
+                    "Brightness can be absolute or relative to the current brightness. Relative\n"
+                    "values are prepended with - for decrease or + for increase. Adding suffix %%\n"
+                    "will make the value percentage of max brightness. Without the suffix, value\n"
+                    "is an exact hardware value.\n");
+            return EXIT_SUCCESS;
+        }
+    }
+
     if (argc == 1) {
         printf("%d%%\n", brightness * 100 / max_brightness);
     } else if (argc == 2) {
