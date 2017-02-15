@@ -1,0 +1,55 @@
+.TH LUMEUS 1
+.SH NAME
+lumeus \- adjust backlight brightness
+.SH SYNOPSIS
+.B lumeus
+.IR [<brightness>]
+.SH DESCRIPTION
+.B lumeus
+is an utility to adjust screen backlight brightness. It's useful for binding to
+a hotkey. It doesn't rely on X11 so it can be used in Wayland and system
+console.
+.P
+Calling
+.B lumeus
+without any arguments prints the current brightness as percentage.
+.SH OPTIONS
+.TP
+.B <brightness>
+Brightness can be absolute or relative to the current brightness. Relative
+values are prepended with - for decrease or + for increase. Adding suffix %
+will make the value percentage of max brightness. Without the suffix, value
+is an exact hardware value.
+.SH EXAMPLES
+Get current brightness as percentage:
+.PP
+.nf
+.RS
+lumeus
+.RE
+.fi
+.PP
+Increase brightness by 5%:
+.PP
+.nf
+.RS
+lumeus +5%
+.RE
+.fi
+.PP
+Decrease brightness by raw value:
+.PP
+.nf
+.RS
+lumeus -1
+.RE
+.fi
+.PP
+Set max brightness:
+.PP
+.nf
+.RS
+lumeus 100%
+.RE
+.fi
+.PP
