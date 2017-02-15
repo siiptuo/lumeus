@@ -1,10 +1,12 @@
 PREFIX = /usr/local
 MANPREFIX = ${PREFIX}/share/man
+CFLAGS += -O3 -pedantic -Wall -Wshadow -Wpointer-arith -Wcast-qual \
+          -Wstrict-prototypes -Wmissing-prototypes
 
 all: lumeus
 
-lumeus: main.c
-	@$(CC) main.c -o lumeus
+lumeus: lumeus.c
+	@$(CC) ${CFLAGS} lumeus.c -o lumeus
 
 clean:
 	@rm -f lumeus

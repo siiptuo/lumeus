@@ -9,7 +9,7 @@
 #include <dirent.h>
 #include <limits.h>
 
-int read_integer_from_file(const char *filename)
+static int read_integer_from_file(const char *filename)
 {
     FILE *fp = fopen(filename, "r");
     if (!fp) {
@@ -26,7 +26,7 @@ int read_integer_from_file(const char *filename)
     return value;
 }
 
-void write_integer_to_file(const char *filename, int value)
+static void write_integer_to_file(const char *filename, int value)
 {
     FILE *fp = fopen(filename, "w");
     if (!fp) {
@@ -42,7 +42,8 @@ void write_integer_to_file(const char *filename, int value)
 }
 
 // Keep the value between min and max.
-int clamp(int value, int min, int max) {
+static int clamp(int value, int min, int max)
+{
     return (value < min) ? min : (value > max) ? max : value;
 }
 
@@ -50,7 +51,7 @@ int clamp(int value, int min, int max) {
 // can either be absolute or relative to current brightness indicated by a plus
 // or minus sign or the lack of it. It can also be a raw brightness value or
 // percentage of maximum brightness.
-int parse_input(const char *input, int current_brightness, int max_brightness)
+static int parse_input(const char *input, int current_brightness, int max_brightness)
 {
     // Try to parse input string as an integer.
     char *end;
@@ -109,7 +110,7 @@ int main(int argc, char *argv[])
     int max_brightness = read_integer_from_file(max_brightness_path);
 
     if (argc == 1) {
-        printf("%d%\n", brightness * 100 / max_brightness);
+        printf("%d%%\n", brightness * 100 / max_brightness);
     } else if (argc == 2) {
         write_integer_to_file(brightness_path, parse_input(argv[1], brightness, max_brightness));
     } else {
